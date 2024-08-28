@@ -1,0 +1,6 @@
+archives/
+results/
+log/
+bin/
+.ezmesurerc.json
+config.json

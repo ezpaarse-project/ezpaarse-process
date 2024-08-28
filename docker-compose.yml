@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  ezpaarse-process:
+    build:
+      context: .
+    container_name: ezpaarse-process
+    network_mode: "host"
+    environment:
+      - ARCHIVES_DIR_PATH=./archives
+      - RESULTS_DIR_PATH=./results
+      - EZPAARSE_HOST=localhost:59599
+    volumes:
+      - ${ARCHIVES_DIR_PATH:-./archives}:/usr/src/app/archives:ro
+      - ${RESULTS_DIR_PATH:-./results}:/usr/src/app/results
+      - ${LOG_EZP_DIR_PATH:-./log/ezp}:/usr/src/app/log/ezp
+      - ${LOG_EZM_DIR_PATH:-./log/ezm}:/usr/src/app/log/ezm
+      - ./config.json:/usr/src/app/config.json
+    command: "node script.js"

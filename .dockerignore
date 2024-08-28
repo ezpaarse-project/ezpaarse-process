@@ -1,0 +1,5 @@
+archives/
+results/
+.gitignore
+docker-compose.debug.yml
+docker-compose
