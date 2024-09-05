@@ -1,0 +1,20 @@
+{
+  "name": "ezpaarse-process",
+  "version": "1.0.0",
+  "description": "template to use ezp, ezm and homemade script",
+  "author": "felixleo22",
+  "license": "CeCILL",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint --ext .js ."
+  },
+  "dependencies": {
+    "cron": "^3.1.7",
+    "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.30.0"
+  }
+}

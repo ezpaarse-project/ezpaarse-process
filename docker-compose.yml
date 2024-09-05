@@ -7,13 +7,45 @@ services:
     container_name: ezpaarse-process
     network_mode: "host"
     environment:
+      - NODE_ENV
       - ARCHIVES_DIR_PATH=./archives
       - RESULTS_DIR_PATH=./results
-      - EZPAARSE_HOST=localhost:59599
+      - EZPAARSE_HOST
+      - EZMESURE_URL
+      - EZMESURE_ADMIN_USERNAME
+      - EZMESURE_ADMIN_PASSWORD
+      - EZUNPAYWALL_URL
+      - EZUNPAYWALL_APIKEY
+      - ELASTIC_URL
+      - TIMEZONE
+      - SMTP_HOST
+      - SMTP_PORT
+      - NOTIFICATIONS_SENDER
+      - NOTIFICATIONS_RECEIVERS
+      - CRON_SCHEDULE
+     
     volumes:
       - ${ARCHIVES_DIR_PATH:-./archives}:/usr/src/app/archives:ro
       - ${RESULTS_DIR_PATH:-./results}:/usr/src/app/results
-      - ${LOG_EZP_DIR_PATH:-./log/ezp}:/usr/src/app/log/ezp
-      - ${LOG_EZM_DIR_PATH:-./log/ezm}:/usr/src/app/log/ezm
-      - ./config.json:/usr/src/app/config.json
-    command: "node script.js"
+      - ${LOG_PATH:-./log}:/usr/src/app/log
+      - ./config:/usr/src/app/config
+    command: "node ./lib/index.js"
+    depends_on:
+      maildev:
+        condition: service_healthy
+  
+  maildev:
+    image: djfarrelly/maildev
+    container_name: maildev
+    network_mode: "host"
+    ports:
+      - 1080:80
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -Y off --no-verbose --tries=1 --spider http://localhost:80 || exit 1"
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 5

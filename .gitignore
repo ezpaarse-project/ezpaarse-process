@@ -1,6 +1,7 @@
 archives/
 results/
+node_modules/
 log/
-bin/
-.ezmesurerc.json
-config.json
+old/
+config/config.json
+env.local.sh

@@ -1,5 +1,11 @@
 archives/
 results/
+node_modules/
 .gitignore
+.eslintrc.json
+config.example.json
 docker-compose.debug.yml
 docker-compose
+README.md
+env.sh
+env.local.sh

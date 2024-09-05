@@ -1,0 +1,13 @@
+{
+  "description": "Ingest pipeline pour l'enrichissement des données de consultation Bibapi",
+  "processors": [
+    {
+      "date": {
+        "field": "datetime",
+        "formats": [
+          "ISO8601"
+        ]
+      }
+    }
+  ]
+}

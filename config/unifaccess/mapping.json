@@ -1,0 +1,312 @@
+{
+  "mappings": {
+    "properties": {
+      "datetime": {
+        "type": "date",
+        "format": "iso8601"
+      },
+      "best_oa_location": {
+        "properties": {
+          "endpoint_id": {
+            "type": "keyword"
+          },
+          "evidence": {
+            "type": "keyword"
+          },
+          "host_type": {
+            "type": "keyword"
+          },
+          "is_best": {
+            "type": "boolean"
+          },
+          "license": {
+            "type": "keyword"
+          },
+          "pmh_id": {
+            "type": "keyword"
+          },
+          "repository_institution": {
+            "type": "keyword"
+          },
+          "updated": {
+            "type": "date"
+          },
+          "url": {
+            "type": "keyword"
+          },
+          "url_for_landing_page": {
+            "type": "keyword"
+          },
+          "url_for_pdf": {
+            "type": "keyword"
+          },
+          "version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "data_standard": {
+        "type": "long"
+      },
+      "doi": {
+        "type": "keyword"
+      },
+      "domain": {
+        "type": "keyword"
+      },
+      "urlOrigine": {
+        "type": "keyword"
+      },
+      "doi_url": {
+        "type": "keyword"
+      },
+      "etab": {
+        "type": "keyword"
+      },
+      "first_oa_location": {
+        "properties": {
+          "endpoint_id": {
+            "type": "keyword"
+          },
+          "evidence": {
+            "type": "keyword"
+          },
+          "host_type": {
+            "type": "keyword"
+          },
+          "is_best": {
+            "type": "boolean"
+          },
+          "license": {
+            "type": "keyword"
+          },
+          "pmh_id": {
+            "type": "keyword"
+          },
+          "repository_institution": {
+            "type": "keyword"
+          },
+          "updated": {
+            "type": "date"
+          },
+          "url": {
+            "type": "keyword"
+          },
+          "url_for_landing_page": {
+            "type": "keyword"
+          },
+          "url_for_pdf": {
+            "type": "keyword"
+          },
+          "version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "genre": {
+        "type": "keyword"
+      },
+      "has_repository_copy": {
+        "type": "boolean"
+      },
+      "is_oa": {
+        "type": "boolean"
+      },
+      "is_paratext": {
+        "type": "boolean"
+      },
+      "journal_is_in_doaj": {
+        "type": "boolean"
+      },
+      "journal_is_oa": {
+        "type": "boolean"
+      },
+      "journal_issn_l": {
+        "type": "keyword"
+      },
+      "journal_issns": {
+        "type": "keyword"
+      },
+      "journal_name": {
+        "type": "keyword"
+      },
+      "level": {
+        "type": "keyword"
+      },
+      "manifestVersion": {
+        "type": "keyword"
+      },
+      "message": {
+        "type": "keyword"
+      },
+      "oa_locations": {
+        "properties": {
+          "endpoint_id": {
+            "type": "keyword"
+          },
+          "evidence": {
+            "type": "keyword"
+          },
+          "host_type": {
+            "type": "keyword"
+          },
+          "is_best": {
+            "type": "boolean"
+          },
+          "license": {
+            "type": "keyword"
+          },
+          "pmh_id": {
+            "type": "keyword"
+          },
+          "repository_institution": {
+            "type": "keyword"
+          },
+          "updated": {
+            "type": "date"
+          },
+          "url": {
+            "type": "keyword"
+          },
+          "url_for_landing_page": {
+            "type": "keyword"
+          },
+          "url_for_pdf": {
+            "type": "keyword"
+          },
+          "version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "oa_status": {
+        "type": "keyword"
+      },
+      "openUrl": {
+        "type": "keyword"
+      },
+      "pii": {
+        "type": "keyword"
+      },
+      "pmid": {
+        "type": "keyword"
+      },
+      "published_date": {
+        "type": "date",
+        "format": "iso8601"
+      },
+      "publisher": {
+        "type": "keyword"
+      },
+      "sid": {
+        "type": "keyword"
+      },
+      "source": {
+        "type": "keyword"
+      },
+      "sourcesOption": {
+        "type": "keyword"
+      },
+      "sourcesOptionSize": {
+        "type": "integer"
+      },
+      "timestamp": {
+        "type": "date",
+        "format": "iso8601"
+      },
+      "title": {
+        "type": "keyword"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "updated": {
+        "type": "date",
+        "format": "iso8601"
+      },
+      "url": {
+        "type": "text"
+      },
+      "userAgent": {
+        "type": "keyword"
+
+      },
+      "userAgentData": {
+        "properties": {
+          "browser": {
+            "properties": {
+              "major": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "keyword"
+              },
+              "version": {
+                "type": "keyword"
+              }
+            }
+          },
+          "cpu": {
+            "properties": {
+              "architecture": {
+                "type": "keyword"
+              }
+            }
+          },
+          "device": {
+            "properties": {
+              "model": {
+                "type": "keyword"
+              },
+              "type": {
+                "type": "keyword"
+              },
+              "vendor": {
+                "type": "keyword"
+              }
+            }
+          },
+          "engine": {
+            "properties": {
+              "name": {
+                "type": "keyword"
+              },
+              "version": {
+                "type": "keyword"
+              }
+            }
+          },
+          "os": {
+            "properties": {
+              "name": {
+                "type": "keyword"
+              },
+              "version": {
+                "type": "keyword"
+              }
+            }
+          },
+          "ua": {
+            "type": "keyword"
+          }
+        }
+      },
+      "year": {
+        "type": "keyword"
+      },
+      "z_authors": {
+        "properties": {
+          "family": {
+            "type": "keyword"
+          },
+          "given": {
+            "type": "keyword"
+          },
+          "sequence": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
