@@ -74,5 +74,14 @@ The tools you need to start this container run are :
 | SMTP_HOST | SMTP host | 
 | SMTP_PORT | SMTP port | 
 | NOTIFICATIONS_SENDER | email sender | 
-| NOTIFICATIONS_RECEIVERS | | 
+| NOTIFICATIONS_RECEIVERS | emails receivers | 
 | CRON_SCHEDULE | Schedule of cron | 
+
+## Dev
+
+1. Make sure you have ezpaarse and ezmesure start in dev mode on your machine
+2. Create config.json on @/config and put your config inside
+3. Start script node ./utils/dev to create log example
+4. Create env.local.sh
+5. Set all necessary env variables
+6. Start docker compose up

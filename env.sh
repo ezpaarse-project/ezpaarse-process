@@ -22,7 +22,7 @@ export NOTIFICATIONS_SENDER="dev-ezpaarse-process@inist.fr"
 export NOTIFICATIONS_RECEIVERS="test@test.fr"
 
 export NODE_CONFIG='{ "smtp": { "secure": false, "ignoreTLS": true } }'
-export NODE_CONFIG="production"
+export NODE_ENV='development'
 
 export CRON_SCHEDULE="30 1 * * * *"
 
