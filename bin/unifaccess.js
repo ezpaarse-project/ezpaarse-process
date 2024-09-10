@@ -3,10 +3,9 @@ const path = require('path');
 const {
   archivesDir,
   resultsDir,
-  year,
-  month,
-  day,
+  checkArgs,
   createLogger,
+  splitDate,
 } = require('../lib/utils');
 
 const {
@@ -28,16 +27,22 @@ const machine = 'vp-unif-access';
 const portal = 'unifaccess';
 const indexName = 'int_unifaccess-ezpaarse';
 
-const source = path.resolve(archivesDir, machine, portal, year, `${year}-${month}`);
-const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
+async function processUnifAccess(date) {
+  const {
+    year,
+    month,
+    day,
+  } = splitDate(date);
 
-const baseFilename = `${machine}.${portal}.applis.${year}.${month}.${day}`;
-const sourceFilepath = path.resolve(source, `${baseFilename}.log.gz`);
-const transformUnifAccessFilepath = path.resolve(result, `${baseFilename}.tranform.jsonl`);
-const ezuUnifAccessFilepath = path.resolve(result, `${baseFilename}.ezu.jsonl`);
-const elasticUnifAccessFilepath = path.resolve(result, `${baseFilename}.ezmesure.jsonl`);
+  const source = path.resolve(archivesDir, machine, portal, year, `${year}-${month}`);
+  const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
 
-async function processUnifAccess() {
+  const baseFilename = `${machine}.${portal}.applis.${year}.${month}.${day}`;
+  const sourceFilepath = path.resolve(source, `${baseFilename}.log.gz`);
+  const transformUnifAccessFilepath = path.resolve(result, `${baseFilename}.tranform.jsonl`);
+  const ezuUnifAccessFilepath = path.resolve(result, `${baseFilename}.ezu.jsonl`);
+  const elasticUnifAccessFilepath = path.resolve(result, `${baseFilename}.ezmesure.jsonl`);
+
   logger = await createLogger('unifaccess');
 
   const transformLogLine = (line) => {
@@ -66,8 +71,12 @@ async function processUnifAccess() {
 }
 
 if (require.main === module) {
+  const args = process.argv.slice(2);
+  const params = checkArgs(args);
+  const paramDate = params.date ? new Date(params.date) : new Date();
+
   (async () => {
-    await processUnifAccess();
+    await processUnifAccess(paramDate);
   })();
 }
 

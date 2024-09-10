@@ -1,7 +1,7 @@
 const fsp = require('fs/promises');
 const path = require('path');
 
-function formatDate() {
+function dateForLog() {
   const now = new Date();
   now.setDate(now.getDate() - 1);
 
@@ -17,7 +17,7 @@ function formatDate() {
 }
 
 async function copyAndRename(sourceFilePath, destinationFolderPath) {
-  const { yyyy, yyymm, yyyymmdd } = formatDate();
+  const { yyyy, yyymm, yyyymmdd } = dateForLog();
 
   const targetFolder = path.join(destinationFolderPath, yyyy, yyymm);
 

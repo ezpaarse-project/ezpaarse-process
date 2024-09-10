@@ -3,10 +3,8 @@ const path = require('path');
 const {
   archivesDir,
   resultsDir,
-  year,
-  month,
-  day,
   createLogger,
+  splitDate,
 } = require('../lib/utils');
 
 const {
@@ -23,16 +21,22 @@ const machine = 'machine2';
 const portal = 'portal';
 const indexName = 'json';
 
-const source = path.resolve(archivesDir, machine, portal, year, `${year}-${month}`);
-const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
+async function processDev(date) {
+  const {
+    year,
+    month,
+    day,
+  } = splitDate(date);
 
-const baseFilename = `${machine}.json.${year}.${month}.${day}`;
-const sourceFilepath = path.resolve(source, `${baseFilename}.log.gz`);
-const transformDevFilepath = path.resolve(result, `${baseFilename}.tranform.jsonl`);
-const ezuDevFilepath = path.resolve(result, `${baseFilename}.ezu.jsonl`);
-const elasticDevFilepath = path.resolve(result, `${baseFilename}.ezmesure.jsonl`);
+  const source = path.resolve(archivesDir, machine, portal, year, `${year}-${month}`);
+  const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
 
-async function processDev() {
+  const baseFilename = `${machine}.json.${year}.${month}.${day}`;
+  const sourceFilepath = path.resolve(source, `${baseFilename}.log.gz`);
+  const transformDevFilepath = path.resolve(result, `${baseFilename}.tranform.jsonl`);
+  const ezuDevFilepath = path.resolve(result, `${baseFilename}.ezu.jsonl`);
+  const elasticDevFilepath = path.resolve(result, `${baseFilename}.ezmesure.jsonl`);
+
   logger = await createLogger('machine2');
 
   const transformLogLine = (line) => {

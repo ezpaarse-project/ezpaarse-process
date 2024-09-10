@@ -26,6 +26,9 @@ export NODE_ENV='development'
 
 export CRON_SCHEDULE="30 1 * * * *"
 
+export RESULTS_DIR_PATH="./results"
+export ARCHIVES_DIR_PATH="./archives"
+
 
 if [[ -f $LOCAL_ENV_FILE ]] ; then
   source "$LOCAL_ENV_FILE"
