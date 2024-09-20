@@ -10,16 +10,10 @@ const {
 
 const {
   transformFile,
-  ezuConfig,
   enrichFileWithEzu,
   prepareFileForElastic,
-  createMapping,
-  createPipeline,
   sendFileToElastic,
 } = require('../lib/processLogJSON');
-
-const pipeline = require('../config/bibapi/pipeline.json');
-const mapping = require('../config/bibapi/mapping.json');
 
 let logger;
 
@@ -27,6 +21,11 @@ const machine = 'vpportail';
 const portal = 'bibapi';
 const indexName = 'int_bibapi-ezpaarse';
 
+/**
+ * Process BibAPI Log
+ *
+ * @param {Date} date Date of log files.
+ */
 async function processBibAPI(date) {
   const {
     year,
@@ -45,6 +44,12 @@ async function processBibAPI(date) {
 
   logger = await createLogger('bibapi');
 
+  /**
+   * Custom transformLogLine
+   * @param {string} line Line to be transform
+   *
+   * @returns transformed line
+   */
   const transformLogLine = (line) => {
     const copyLine = line;
     copyLine.datetime = line?.timestamp;
@@ -52,12 +57,9 @@ async function processBibAPI(date) {
     return copyLine;
   };
 
-  let success = await ezuConfig(logger, machine, portal);
-  if (success) { success = await transformFile(logger, machine, portal, sourceFilepath, transformBibAPIFilepath, transformLogLine); }
+  let success = await transformFile(logger, machine, portal, sourceFilepath, transformBibAPIFilepath, transformLogLine);
   if (success) { success = await enrichFileWithEzu(logger, machine, portal, transformBibAPIFilepath, ezuBibAPIFilepath); }
   if (success) { success = await prepareFileForElastic(logger, machine, portal, ezuBibAPIFilepath, elasticBibAPIFilepath); }
-  if (success) { success = await createPipeline(logger, machine, portal, pipeline, indexName); }
-  if (success) { success = await createMapping(logger, machine, portal, mapping, indexName); }
   if (success) { await sendFileToElastic(logger, machine, portal, elasticBibAPIFilepath, indexName); }
 }
 

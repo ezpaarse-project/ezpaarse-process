@@ -29,15 +29,15 @@ The tools you need to start this container run are :
     ├── <portal>
     │   ├── <yyyy>
     │   │   ├── <yyyy-mm> 
-    │   │   │   ├── <filename>.<y>.<mois>.<jour>.log.gz
+    │   │   │   ├── <filename>.<yyyy>.<mm>.<dd>.log.gz
 
 /results
 └── <machine>
     ├── <portal>
     │   ├── <yyyy>
     │   │   ├── <yyyy-mm> 
-    │   │   │   ├── <filename>.<y>.<mois>.<jour>.ec.csv
-    │   │   │   ├── <filename>.<y>.<mois>.<jour>.report.json
+    │   │   │   ├── <filename>.<yyyy>.<mm>.<dd>.ec.csv
+    │   │   │   ├── <filename>.<yyyy>.<mm>.<dd>.report.json
 
 ```
 
@@ -46,7 +46,7 @@ The tools you need to start this container run are :
 {
   "<machine>": [
     {
-      "portal": "<portal>",
+      "portal": "<portalName>",
       "headers": { 
         "<header-key>": "<header-value>"
       }
@@ -60,17 +60,16 @@ The tools you need to start this container run are :
 | name | description |
 | ---  | --- |
 | NODE_ENV | env of application | 
+| TIMEZONE | Timezone of application |
 | ARCHIVES_DIR_PATH | Path of the ‘archive’ folder containing the logs |
 | RESULTS_DIR_PATH | Path of the ‘results’ folder containing ECs |
-| EZMESURE_URL | URL of ezMESURE | 
 | EZPAARSE_HOST | ezPAARSE host for ezp command |
-| EZMESURE_HOST | ezMESURE host for ezm command |
-| EZMESURE_ADMIN_USERNAME | ezMESURE admin username to create token | 
-| EZMESURE_ADMIN_PASSWORD | ezMESURE admin password to create token | 
+| EZMESURE_URL | URL of ezMESURE | 
+| EZMESURE_USERNAME | ezMESURE username to create token | 
+| EZMESURE_PASSWORD | ezMESURE password to create token | 
 | EZUNPAYWALL_URL | URL of ezunpaywall | 
 | EZUNPAYWALL_APIKEY | API key to enrich line with ezu log in JSON format | 
 | ELASTIC_URL | Elastic URL to send data from log in JSON format | 
-| TIMEZONE | Timezone of application | 
 | SMTP_HOST | SMTP host | 
 | SMTP_PORT | SMTP port | 
 | NOTIFICATIONS_SENDER | email sender | 
@@ -85,3 +84,7 @@ The tools you need to start this container run are :
 4. Create env.local.sh
 5. Set all necessary env variables
 6. Start docker compose up
+
+## How to use
+
+// TODO doc

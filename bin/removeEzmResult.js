@@ -26,7 +26,7 @@ async function executeCommand(machines, requestedPortal, date) {
     for (let j = 0; j < jobs.length; j += 1) {
       const job = jobs[j];
       const portal = job?.portal;
-      const logFileName = job?.logFileName;
+      const baseFilename = job?.baseFilename;
 
       // if portal is send in args
       if (requestedPortal && !requestedPortal.includes(portal)) {
@@ -37,18 +37,7 @@ async function executeCommand(machines, requestedPortal, date) {
 
       const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
 
-      const ecFile = path.resolve(result, `${logFileName}.${year}.${month}.${day}.ec.csv`);
-      const reportFile = path.resolve(result, `${logFileName}.${year}.${month}.${day}.report.json`);
-
-      try {
-        await fs.unlink(ecFile);
-      } catch (error) {
-        if (error.code === 'ENOENT') {
-          logger.error(`File ${ecFile} does not exist`);
-        } else {
-          logger.error(`Error deleting file: ${error.message}`);
-        }
-      }
+      const reportFile = path.resolve(result, `${baseFilename}.${year}.${month}.${day}.ec.report.ezm.json`);
 
       try {
         await fs.unlink(reportFile);
@@ -63,7 +52,7 @@ async function executeCommand(machines, requestedPortal, date) {
   }
 }
 
-async function removeResultEzp(machines, requestedPortal, date) {
+async function removeEzmResult(machines, requestedPortal, date) {
   logger = await createLogger('removeEzpResult');
   await executeCommand(machines, requestedPortal, date);
 }
@@ -76,8 +65,8 @@ if (require.main === module) {
   const paramDate = params.date ? new Date(params.date) : new Date();
 
   (async () => {
-    await removeResultEzp(paramMachine, paramPortal, paramDate);
+    await removeEzmResult(paramMachine, paramPortal, paramDate);
   })();
 }
 
-module.exports = removeResultEzp;
+module.exports = removeEzmResult;

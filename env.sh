@@ -6,8 +6,8 @@ LOCAL_ENV_FILE="$SCRIPT_DIR/env.local.sh"
 export EZPAARSE_HOST="localhost:59599"
 
 export EZMESURE_URL="https://localhost"
-export EZMESURE_ADMIN_USERNAME="ezmesure-admin"
-export EZMESURE_ADMIN_PASSWORD="changeme"
+export EZMESURE_USERNAME="ezmesure-admin"
+export EZMESURE_PASSWORD="changeme"
 
 export EZUNPAYWALL_URL="https://unpaywall.inist.fr"
 export EZUNPAYWALL_APIKEY="demo"

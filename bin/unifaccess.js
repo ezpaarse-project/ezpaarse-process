@@ -10,16 +10,10 @@ const {
 
 const {
   transformFile,
-  ezuConfig,
   enrichFileWithEzu,
   prepareFileForElastic,
-  createMapping,
-  createPipeline,
   sendFileToElastic,
 } = require('../lib/processLogJSON');
-
-const pipeline = require('../config/unifaccess/pipeline.json');
-const mapping = require('../config/unifaccess/mapping.json');
 
 let logger;
 
@@ -27,6 +21,11 @@ const machine = 'vp-unif-access';
 const portal = 'unifaccess';
 const indexName = 'int_unifaccess-ezpaarse';
 
+/**
+ * Process unifAccess Log
+ *
+ * @param {Date} date Date of log files.
+ */
 async function processUnifAccess(date) {
   const {
     year,
@@ -45,6 +44,12 @@ async function processUnifAccess(date) {
 
   logger = await createLogger('unifaccess');
 
+  /**
+   * Custom transformLogLine
+   * @param {string} line Line to be transform
+   *
+   * @returns transformed line
+   */
   const transformLogLine = (line) => {
     const copyLine = line;
     copyLine.datetime = copyLine?.timestamp;
@@ -61,12 +66,9 @@ async function processUnifAccess(date) {
     return copyLine;
   };
 
-  let success = await ezuConfig(logger, machine, portal);
-  if (success) { success = await transformFile(logger, machine, portal, sourceFilepath, transformUnifAccessFilepath, transformLogLine); }
+  let success = await transformFile(logger, machine, portal, sourceFilepath, transformUnifAccessFilepath, transformLogLine);
   if (success) { success = await enrichFileWithEzu(logger, machine, portal, transformUnifAccessFilepath, ezuUnifAccessFilepath); }
   if (success) { success = await prepareFileForElastic(logger, machine, portal, ezuUnifAccessFilepath, elasticUnifAccessFilepath); }
-  if (success) { success = await createPipeline(logger, machine, portal, pipeline, indexName); }
-  if (success) { success = await createMapping(logger, machine, portal, mapping, indexName); }
   if (success) { await sendFileToElastic(logger, machine, portal, elasticUnifAccessFilepath, indexName); }
 }
 

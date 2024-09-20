@@ -17,7 +17,13 @@ const { addMessage } = require('../lib/mail');
 
 let logger;
 
-async function executeCommand(machines, requestedPortal, date) {
+/**
+ * @param {string[]} machines Array of machines name
+ * @param {string[]} requestedPortal Array of portals name
+ * @param {Date} date Date of log files
+ * @param {Boolean} force Overwrites existing results
+ */
+async function executeCommand(machines, requestedPortal, date, force) {
   const {
     year,
     month,
@@ -26,34 +32,34 @@ async function executeCommand(machines, requestedPortal, date) {
 
   for (let i = 0; i < machines.length; i += 1) {
     const machine = machines[i];
-    const jobs = config[machines[i]];
+    const portals = config[machines[i]];
 
-    for (let j = 0; j < jobs.length; j += 1) {
-      const job = jobs[j];
-      const headers = job?.headers;
-      const portal = job?.portal;
-      const logFileName = job?.logFileName;
+    for (let j = 0; j < portals.length; j += 1) {
+      const portal = portals[j];
+      const headers = portal?.headers;
+      const portalName = portal?.portal;
+      const baseFilename = portal?.baseFilename;
 
       // if portal is send in args
-      if (requestedPortal && !requestedPortal.includes(portal)) {
+      if (requestedPortal && !requestedPortal.includes(portalName)) {
         continue;
       }
 
-      logger.log(`[ezp][${machine}][${portal}]: prepare command`);
+      logger.log(`[ezp][${machine}][${portalName}]: prepare command`);
 
       const command = 'ezp';
       const args = [
         'bulk',
       ];
 
-      const source = path.resolve(archivesDir, machine, portal, year, `${year}-${month}`);
-      const result = path.resolve(resultsDir, machine, portal, year, `${year}-${month}`);
+      const source = path.resolve(archivesDir, machine, portalName, year, `${year}-${month}`);
+      const result = path.resolve(resultsDir, machine, portalName, year, `${year}-${month}`);
 
-      const logFile = path.resolve(source, `${logFileName}.${year}.${month}.${day}.log.gz`);
+      const logFile = path.resolve(source, `${baseFilename}.${year}.${month}.${day}.log.gz`);
 
       if (!await fs.existsSync(logFile)) {
-        logger.log(`[ezp][${machine}][${portal}]: Log File [${logFile}] not found`);
-        addMessage(`[ezp][${machine}][${portal}]:\nError: Log File [${logFile}] not found`, true);
+        logger.log(`[ezp][${machine}][${portalName}]: Log File [${logFile}] not found`);
+        addMessage(`[ezp][${machine}][${portalName}]:\nError: Log File [${logFile}] not found`, true);
         continue;
       }
 
@@ -70,28 +76,31 @@ async function executeCommand(machines, requestedPortal, date) {
       args.push(source);
       args.push(result);
 
-      logger.log(`[ezp][${machine}][${portal}]: ${command} ${args.join(' ')}`);
-
-      let success = false;
-
-      try {
-        success = await runShellCommand(command, args);
-      } catch (err) {
-        logger.error(err);
-        addMessage(`[ezp][${machine}][${portal}]: \n Error in ezp`, true);
+      if (force) {
+        args.push('-f');
       }
 
-      if (success) {
-        logger.log(`[ezp][${machine}][${portal}]: logs have been processed`);
-        addMessage(`[ezp][${machine}][${portal}]: OK`, false);
+      try {
+        await runShellCommand(command, args);
+        logger.log(`[ezp][${machine}][${portalName}]: logs have been processed`);
+        addMessage(`[ezp][${machine}][${portalName}]: OK`, false);
+      } catch (err) {
+        logger.error(err);
+        addMessage(`[ezp][${machine}][${portalName}]: \n Error in ezp`, true);
       }
     }
   }
 }
 
-async function processEzp(machines, requestedPortal, date) {
+/**
+ * @param {string[]} machines Array of machines name
+ * @param {string[]} requestedPortal Array of portals name
+ * @param {Date} date Date of log files
+ * @param {Boolean} force Overwrites existing results
+ */
+async function processEzp(machines, requestedPortal, date, force) {
   logger = await createLogger('ezp');
-  await executeCommand(machines, requestedPortal, date);
+  await executeCommand(machines, requestedPortal, date, force);
 }
 
 if (require.main === module) {
@@ -100,9 +109,10 @@ if (require.main === module) {
   const paramMachine = params?.machine ? params.machine : allMachine;
   const paramPortal = params?.requestedPortal;
   const paramDate = params.date ? new Date(params.date) : new Date();
+  const paramForce = params?.force;
 
   (async () => {
-    await processEzp(paramMachine, paramPortal, paramDate);
+    await processEzp(paramMachine, paramPortal, paramDate, paramForce);
   })();
 }
 

@@ -2,7 +2,7 @@
   "machine1": [
     {
       "portal": "portal",
-      "logFileName": "machine1.apache",
+      "baseFilename": "machine1.apache",
       "indexName": "apache"
     }
   ]

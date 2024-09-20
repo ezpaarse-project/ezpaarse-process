@@ -9,7 +9,7 @@ const {
 
 const {
   transformFile,
-  ezuConfig,
+  setEzuConfig,
   enrichFileWithEzu,
   prepareFileForElastic,
   sendFileToElastic,
@@ -45,7 +45,7 @@ async function processDev(date) {
     return line;
   };
 
-  let success = await ezuConfig(logger, machine, portal);
+  let success = await setEzuConfig(logger, machine, portal);
   if (success) { success = await transformFile(logger, machine, portal, sourceFilepath, transformDevFilepath, transformLogLine); }
   if (success) { success = await enrichFileWithEzu(logger, machine, portal, transformDevFilepath, ezuDevFilepath); }
   if (success) { success = await prepareFileForElastic(logger, machine, portal, ezuDevFilepath, elasticDevFilepath); }
