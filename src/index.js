@@ -9,26 +9,26 @@ const unifaccessMapping = require('../config/unifaccess/mapping.json');
 const bibApiPipeline = require('../config/bibapi/pipeline.json');
 const bibApiMapping = require('../config/bibapi/mapping.json');
 
-const { setEzmesureToken } = require('./utils');
+const { setEzmesureToken } = require('./lib/utils');
 
-const setEzuConfig = require('./ezu');
-const setEzmConfig = require('./ezm');
+const setEzuConfig = require('./lib/ezu');
+const setEzmConfig = require('./lib/ezm');
 
 const {
   checkPipelineExists,
   createPipeline,
   checkIndexExists,
   createMapping,
-} = require('./elastic');
+} = require('./lib/elastic');
 
-const processBibAPI = require('../bin/bibapi');
-const processUnifAccess = require('../bin/unifaccess');
-const processEzmesure = require('../bin/ezm');
-const processEzp = require('../bin/ezp');
-// const processDev = require('../bin/dev');
+const processBibAPI = require('./bin/bibapi');
+const processUnifAccess = require('./bin/unifaccess');
+const processEzmesure = require('./bin/ezm');
+const processEzp = require('./bin/ezp');
+// const processDev = require('./bin/dev');
 
-const { sendMail } = require('./mail');
-const { machines } = require('./utils');
+const { sendMail } = require('./lib/mail');
+const { machines } = require('./lib/utils');
 
 /**
  * Task call in cron
@@ -75,7 +75,9 @@ const cron = new CronJob(schedule, task, null, false, timezone);
 
   await setEzmesureToken();
 
-  task();
+  if (process.env.NODE_ENV === 'development') {
+    task();
+  }
 
   cron.start();
 })();

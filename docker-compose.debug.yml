@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  ezpaarse-process:
+    image: node:22
+    container_name: ezpaarse-process
+    network_mode: "host"
+    environment:
+      - NODE_ENV=development
+      - ARCHIVES_DIR_PATH=./archives
+      - RESULTS_DIR_PATH=./results
+      - EZPAARSE_HOST
+      - EZMESURE_URL
+      - EZMESURE_USERNAME
+      - EZMESURE_PASSWORD
+      - EZUNPAYWALL_URL
+      - EZUNPAYWALL_APIKEY
+      - ELASTIC_URL
+      - TIMEZONE
+      - SMTP_HOST
+      - SMTP_PORT
+      - NOTIFICATIONS_SENDER
+      - NOTIFICATIONS_RECEIVERS
+      - CRON_SCHEDULE
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    command: "npm run dev"
+    depends_on:
+      maildev:
+        condition: service_healthy
+  
+  maildev:
+    image: djfarrelly/maildev
+    container_name: maildev
+    network_mode: "host"
+    ports:
+      - 1080:80
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -Y off --no-verbose --tries=1 --spider http://localhost:80 || exit 1"
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 5

@@ -87,4 +87,29 @@ The tools you need to start this container run are :
 
 ## How to use
 
-// TODO doc
+### reprocessing
+
+```sh
+node ./src/bin/reprocessing.js \
+  # Name of machines separeted by comma.
+  # If no machine is specified, all machines will be selected.
+  machines=vpanoms,vparchitoul \
+  # Name of portals separeted by comma.
+  # If no portals is specified, all machines will be selected.
+  # it is not obligatory to indicate the machine linked to this portal
+  portals=in2p3,inc \
+  # Start date of files processed at yyyy-mm-dd format
+  startDate=2024-01-01 \
+  # End date of files processed at yyyy-mm-dd format
+  endDate=2024-01-31 \
+  # ezp reprocessing
+  ezp \
+  # ezm reprocessing
+  ezm \
+  # delete generate file from period
+  force \
+  # bibApi reprocessing
+  bibApi \
+  # unifAccess reprocessing
+  unifAccess 
+```

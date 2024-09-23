@@ -35,6 +35,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm ci --omit=dev
+COPY . .
 
-COPY ./bin ./bin
-COPY ./lib ./lib
+HEALTHCHECK --interval=1m --timeout=10s --retries=5 --start-period=20s \
+  CMD wget -Y off --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+
+CMD [ "npm", "start" ]

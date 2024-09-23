@@ -6,7 +6,7 @@ const fs = require('fs');
 const fsp = require('fs/promises');
 const { spawn } = require('child_process');
 
-const config = require('../config/config.json');
+const config = require('../../config/config.json');
 
 const archivesDir = process.env.ARCHIVES_DIR_PATH;
 const resultsDir = process.env.RESULTS_DIR_PATH;
